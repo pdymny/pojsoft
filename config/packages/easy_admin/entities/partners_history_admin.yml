@@ -1,0 +1,21 @@
+easy_admin:
+    entities:
+        PartnersHistoryAdmin:
+            class: App\Entity\PartnersHistory
+            controller: App\Controller\AdminController
+            list:
+                item_permission: 'ROLE_ADMIN'
+                title: 'Partnerzy - Historia'
+                actions:
+                    - { name: '-new'}
+                    - { name: '-show' }
+                    - { name: '-edit' }
+                    - { name: '-delete' }
+                fields: 
+                    - { property: 'id' }
+                    - { property: 'getPartner.getUser', label: 'Partner' }
+                    - { property: 'getPartner.code', label: 'Kod partnera' }
+                    - { property: 'date', label: 'Data' }
+                    - { property: 'status', label: 'Status', template: 'admin/partner_status.html.twig' }
+                    - { property: 'money', label: 'Kwota' }
+                    - { property: 'amount', label: 'Stan konta' }

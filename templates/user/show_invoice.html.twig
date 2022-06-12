@@ -1,0 +1,173 @@
+{% extends 'layout_login.html.twig' %}
+
+{% block page_title %}Faktura: {{ entity.name }}{% endblock %}
+
+{% block body_id 'welcome' %}
+
+{% block content_title %}Faktura: {{ entity.name }}{% endblock %}
+
+{% block main %}
+<form action="{{ path('use_discount', {id: entity.id }) }}" method="post">
+    <fieldset>
+    <div class="row">
+      <div class="col-12" style="border-bottom:1px solid #ccc;">
+        <div class="float-right">Wystawiono w dniu: {{ entity.getDateIssued()|date('Y-m-d') }}, Wielki Komorsk</div>
+        <h2 class="mt-2 pb-2">
+            <i class="fa fa-code"></i> DymCode
+        </h2>
+        
+      </div>
+    </div>
+
+    <div class="row mt-4">
+      <div class="col-4">
+        Sprzedawca
+        <address>
+          {{ entity.getAddressMy()|raw }}
+        </address>
+      </div>
+
+      <div class="col-4">
+        Nabywca
+        <address>
+        {% if entity.status == 0 or entity.status == 1 or entity.status == 2 %}
+          <strong>{{ entity.getUser().getNameCompany() }}</strong><br>
+          {{ entity.getUser().street }}<br>
+          {{ entity.getUser().getCodePost() }}, {{ entity.getUser().city }}<br>
+          {% if entity.getUser().phone != '' %}
+            Telefon: {{ entity.getUser().phone }} <br>
+          {% endif %}
+          {% if entity.getUser().email != '' %}
+            E-mail: {{ entity.getUser().email }}
+          {% endif %} 
+        {% else %}
+          {{ entity.getAddressCompany()|raw }}
+        {% endif %}
+        </address>
+      </div>
+
+      <div class="col-4">
+        {% if entity.status == 0 or entity.status == 1 %}
+          <div style="color:red;font-weight:bold;">Pro forma do zapłaty</div>
+          <br>
+          <b>ID Płatności:</b> #{{ entity.id }}<br>
+        {% elseif entity.status == 2 %}
+          <div style="color:red;font-weight:bold;">Anulowana</div>
+          <br>
+          <b>ID Płatności:</b> #{{ entity.id }}<br>
+        {% elseif entity.status == 3 %}
+          <div style="color:green;font-weight:bold;">Pro forma - opłacona</div>
+          <br>
+          <b>ID Płatności:</b> #{{ entity.id }}<br>        
+        {% else %}
+          <div style="font-weight:bold;font-size:16px;">Faktura VAT nr: {{ entity.name }}</div>
+          <br>
+        {% endif %}
+        
+        <b>Data sprzedaży:</b> {{ entity.getDateIssued()|date('Y-m-d') }}<br>
+        <b>Termin płatności:</b> {{ entity.getDatePayment()|date('Y-m-d') }}<br>
+      </div>
+    </div>
+
+    <div class="row mt-4">
+      <div class="col-12">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Lp.</th>
+              <th>Nazwa usługi</th>
+              <th>Sztuk</th>
+              <th>Cena jedn. netto</th>
+              <th>Wartość netto</th>
+              <th>VAT</th>
+              <th>Kwota VAT</th>
+              <th>Wartość brutto</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% set sum_money = 0 %}
+            {% set sum_cost = 0 %}
+            {% set sum_tax = 0 %}
+            {% for tab in entity.getInvoicesTable() %}
+                {% set sum_money = sum_money + tab.money %}
+                {% set sum_cost = sum_cost + tab.cost %}
+                {% set sum_tax = sum_tax + tab.tax %}
+            <tr>
+              <td>{{ loop.index }}</td>
+              <td>{{ tab.name }}</td>
+              <td class="text-right">{{ tab.lot }}</td>
+              <td class="text-right">{{ (tab.cost / tab.lot)|number_format(2) }} zł.</td>
+              <td class="text-right">{{ tab.cost|number_format(2) }} zł.</td>
+              <td class="text-right">{{ tab.tax }} %</td>
+              <td class="text-right">{{ (tab.money - tab.cost)|number_format(2) }} zł.</td>
+              <td class="text-right">{{ tab.money|number_format(2) }} zł.</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="row mt-4">
+      <div class="col-8">
+        <b>Do zapłaty:</b> {{ sum_money|number_format(2) }} zł.<br>
+        <b>Słownie:</b> {{ sum_money|words }} <br>
+    {% if entity.status == 0 or entity.status == 1 or entity.status == 2 %}
+        <b>Zapłacono:</b> 0.00 zł. <br>
+        <b>Pozostało:</b> {{ sum_money|number_format(2) }} zł.<br>
+    {% else %}
+        <b>Zapłacono:</b> {{ sum_money|number_format(2) }} zł.<br>
+        <b>Pozostało:</b> 0.00 zł.<br>
+    {% endif %}
+        <b>Sposób zapłaty:</b> Przelew bankowy / Płatność on-line<br>
+        <b>Nr rachunku:</b> brak<br>
+      </div>
+      <div class="col-4">
+
+        <div class="table-responsive">
+          <table class="table">
+            <tr>
+              <th style="width:50%">Razem:</th>
+              <td class="text-right">{{ sum_cost|number_format(2) }} zł.</td>
+            </tr>
+            <tr>
+              <th>Podatek (23 %)</th>
+              <td class="text-right">{{ sum_tax|number_format(2) }} zł.</td>
+            </tr>
+            <tr>
+              <th>Koszt całkowity:</th>
+              <td class="text-right">{{ sum_money|number_format(2) }} zł.</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="row mt-5">
+      <div class="col-6"></div>
+
+      <div class="col-6 text-right" style="float:right;">
+        <strong>Kierownik Działu Sprzedaży</strong> <br>
+        Osoba upoważniona do <br> wystawienia faktury VAT<br>
+      </div>
+    </div>
+</fieldset>
+{% endblock %}
+
+{% block content_footer %}
+    <a href="{{ path('invoice_pdf', {id: entity.id }) }}" target="_blank" class="btn btn-default"><i class="fa fa-print"></i> Podgląd wydruku</a>
+      {% if entity.status < 3 %} 
+        <a href="{{ pay_path|raw }}" class="btn btn-lg btn-success float-right" style="margin-right: 5px;">
+          <i class="fa fa-credit-card"></i> Opłać fakture
+        </a>
+
+        {% if entity.getDisc() == '' and entity.status != 1 %}
+          <button type="submit" class="btn btn-primary float-right" style="margin-right:50px;">
+            <i class="fa fa-ticket"></i> Użyj
+          </button>
+          <input type="text" class="form-control float-right" id="code" name="code[text]" placeholder="Kod rabatowy" style="width:200px;margin-right:10px;">
+        </form>
+        {% endif %}
+    {% endif %}
+</form>
+{% endblock %}

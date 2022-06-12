@@ -1,0 +1,28 @@
+easy_admin:
+    entities:
+        PartnersAdmin:
+            class: App\Entity\Partners
+            controller: App\Controller\AdminController
+            list:
+                item_permission: 'ROLE_ADMIN'
+                title: 'Partnerzy'
+                actions:
+                    - { name: '-new'}
+                    - { name: '-show' }
+                    - { name: 'edit' }
+                    - { name: 'delete' }
+                fields: 
+                    - { property: 'id' }
+                    - { property: 'user.username', label: 'Partner' }
+                    - { property: 'code', label: 'Kod partnera' }
+                    - { property: 'percent', label: 'Procent' }
+                    - { property: 'amount', label: 'Stan konta' }
+            form:
+                item_permission: 'ROLE_ADMIN'
+                fields: 
+                    - { property: 'user', label: 'Partner' }
+                    - { property: 'code', label: 'Kod partnera' }
+                    - { property: 'percent', label: 'Procent' }
+                    - { property: 'amount', label: 'Stan konta' }
+            edit:
+                title: 'Edytuj partnera (#%%entity_id%%)'

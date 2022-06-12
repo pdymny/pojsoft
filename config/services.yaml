@@ -1,0 +1,18 @@
+parameters:
+    locale: 'pl'
+    app.path.vehicles_files: /uploads/files/vehicles
+    app.path.drivers_files: /uploads/files/drivers
+
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+
+    App\:
+        resource: '../src/*'
+        exclude: '../src/{Entity,Migrations,Repository,Tests}'
+
+    App\Controller\:
+        resource: '../src/Controller'
+        tags: ['controller.service_arguments']

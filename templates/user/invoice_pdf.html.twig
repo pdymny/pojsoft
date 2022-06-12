@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="pl">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<style>
+			table, td, th {  
+				text-align: left;
+			}
+
+			table {
+				border-collapse: collapse;
+				width: 100%;
+			}
+
+			th, td {
+				padding: 1px;
+			}
+
+			th {
+				padding:2px;
+				text-align:center;
+				background-color:#f0f0f0;
+				color:#333;
+			}
+
+			.x {
+				border: 1px solid #ccc;
+			}
+		</style>
+	</head>
+
+	<title>{{ entity.name }}</title>
+	<body style="font-family:firefly,DejaVu Sans,sans-serif;font-size:10px;">
+
+    <div style="width:100%;">
+      <div style="border-bottom:1px solid #ccc; width:100%;">
+        <div style="float:right;text-align:top;">
+        	Wystawiono w dniu: {{ entity.getDateIssued()|date('Y-m-d') }}, Wielki Komorsk
+        </div>
+        <h2 style="margin-top:0px;margin-bottom:10px;">
+            <img src="logo.png" style="width:20px;margin-top:3px;"> DymCode
+        </h2>
+      </div>
+    </div>
+
+    <br/>
+    <div style="width:100%;margin-top:20px;">
+      <div style="width:33%;float:left;">
+        Sprzedawca
+        <address>
+          {{ entity.getAddressMy()|raw }}
+        </address>
+      </div>
+
+      <div style="width:33%;float:left;">
+        Nabywca
+        <address>
+        {% if entity.status == 0 or entity.status == 1 or entity.status == 2 %}
+          <strong>{{ entity.getUser().getNameCompany() }}</strong><br>
+          {{ entity.getUser().street }}<br>
+          {{ entity.getUser().getCodePost() }}, {{ entity.getUser().city }}<br>
+          {% if entity.getUser().phone != '' %}
+            Telefon: {{ entity.getUser().phone }} <br>
+          {% endif %}
+          {% if entity.getUser().email != '' %}
+            E-mail: {{ entity.getUser().email }}
+          {% endif %} 
+        {% else %}
+          {{ entity.getAddressCompany()|raw }}
+        {% endif %}
+        </address>
+      </div>
+
+      <div style="width:33%;float:right">
+        {% if entity.status == 0 or entity.status == 1 %}
+          <div style="color:red;font-weight:bold;">Pro forma do zapłaty</div>
+          <br>
+          <b>ID Płatności:</b> #{{ entity.id }}<br>
+        {% elseif entity.status == 2 %}
+          <div style="color:red;font-weight:bold;">Anulowana</div>
+          <br>
+          <b>ID Płatności:</b> #{{ entity.id }}<br>
+        {% elseif entity.status == 3 %}
+          <div style="color:green;font-weight:bold;">Pro forma - opłacona</div>
+          <br>
+          <b>ID Płatności:</b> #{{ entity.id }}<br>        
+        {% else %}
+          <div style="font-weight:bold;font-size:16px;">Faktura VAT nr: {{ entity.name }}</div>
+          <br>
+        {% endif %}
+        
+        <b>Data sprzedaży:</b> {{ entity.getDateIssued()|date('Y-m-d') }}<br>
+        <b>Termin płatności:</b> {{ entity.getDatePayment()|date('Y-m-d') }}<br>
+      </div>
+    </div>
+    <br/>
+    <div style="width:100%;">
+      <div style="width:100%;">
+        <table class="table" style="margin-top:150px;">
+          <thead>
+            <tr>
+              <th class="x">Lp.</th>
+              <th class="x">Nazwa usługi</th>
+              <th class="x">Sztuk</th>
+              <th class="x">Cena jedn. netto</th>
+              <th class="x">Wartość netto</th>
+              <th class="x">VAT</th>
+              <th class="x">Kwota VAT</th>
+              <th class="x">Wartość brutto</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% set sum_money = 0 %}
+            {% set sum_cost = 0 %}
+            {% set sum_tax = 0 %}
+            {% for tab in entity.getInvoicesTable() %}
+                {% set sum_money = sum_money + tab.money %}
+                {% set sum_cost = sum_cost + tab.cost %}
+                {% set sum_tax = sum_tax + tab.tax %}
+            <tr>
+              <td class="x" style="text-align:center;">{{ loop.index }}</td>
+              <td class="x" style="text-align:left;">{{ tab.name }}</td>
+              <td class="x" style="text-align:right;">{{ tab.lot }}</td>
+              <td class="x" style="text-align:right;">{{ (tab.cost / tab.lot)|number_format(2) }} zł.</td>
+              <td class="x" style="text-align:right;">{{ tab.cost|number_format(2) }} zł.</td>
+              <td class="x" style="text-align:right;">{{ tab.tax }} %</td>
+              <td class="x" style="text-align:right;">{{ (tab.money - tab.cost)|number_format(2) }} zł.</td>
+              <td class="x" style="text-align:right;">{{ tab.money|number_format(2) }} zł.</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <br/>
+    <div style="width:100%;margin-top:20px;">
+      <div style="width:60%;float:left;">
+        <b>Do zapłaty:</b> {{ sum_money|number_format(2) }} zł.<br>
+        <b>Słownie:</b> {{ sum_money|words }}<br>
+    {% if entity.status == 0 or entity.status == 1 or entity.status == 2 %}
+        <b>Zapłacono:</b> 0.00 zł. <br>
+        <b>Pozostało:</b> {{ sum_money|number_format(2) }} zł.<br>
+    {% else %}
+        <b>Zapłacono:</b> {{ sum_money|number_format(2) }} zł.<br>
+        <b>Pozostało:</b> 0.00 zł.<br>
+    {% endif %}
+        <b>Sposób zapłaty:</b> Przelew bankowy / Płatność on-line<br>
+        <b>Nr rachunku:</b> brak<br>
+      </div>
+      <div style="width:40%;float:right;position:absolute;">
+
+        <div style="width:100%;float:right;position:absolute;">
+          <table style="width:100%;float:right;position:absolute;padding:1px;">
+            <tr>
+              <th style="width:50%" class="x">Razem:</th>
+              <td class="x" style="text-align:right;">{{ sum_cost|number_format(2) }} zł.</td>
+            </tr>
+            <tr>
+              <th class="x">Podatek (23 %)</th>
+              <td class="x" style="text-align:right;">{{ sum_tax|number_format(2) }} zł.</td>
+            </tr>
+            <tr>
+              <th class="x">Koszt całkowity:</th>
+              <td class="x" style="text-align:right;">{{ sum_money|number_format(2) }} zł.</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+    <br/>
+    <br/>
+    <div style="width:100%;margin-top:120px;">
+      <div style="width:50%;"></div>
+
+      <div style="width:50%;float:right;text-align:right;">
+        <strong>Kierownik Działu Sprzedaży</strong> <br>
+        Osoba upoważniona do <br> wystawienia faktury VAT<br>
+      </div>
+    </div>
+
+	</body>
+</html>

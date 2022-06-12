@@ -1,0 +1,145 @@
+{% extends 'base.html.twig' %}
+
+{% block page_title 'Składanie zamówienia' %}
+
+{% block body_id 'welcome' %}
+{% block body_width 'width:850px;' %}
+
+{% block main %}
+
+        {% if error|default(false) %}
+            <div class="w-100 alert alert-danger">
+                {{ error.messageKey|trans(error.messageData, 'security') }}
+            </div>
+        {% endif %}
+        {% block flash_messages %}
+            {{ include(_entity_config is defined ? _entity_config.templates.flash_messages : '@EasyAdmin/default/flash_messages.html.twig') }}
+        {% endblock flash_messages %}
+
+<form action="{{ path('order_send', { what: what, pack: pack, gratis: gratis, extends: extends }) }}" method="post">
+    <p class="lead">
+        {% if gratis > 0 %}
+        <div class="row">
+            <div class="col-12">
+                <div class="alert alert-info" role="alert">
+                    Otrzymujesz miesiąc testowy gratis, lecz już teraz wygenerujemy fakturę pro-forma, którą możesz opłacić i korzystać z usługi dłużej lub zignorować płatność i testować przez miesiąc.
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        <div class="row">
+            <div class="col-12">
+                <fieldset>
+                    <legend>Dane konta</legend>
+                    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                        <p>Zalogowany na konto:
+                        <a href="{{ path('dashboard') }}">{{ app.user.firstname }} {{ app.user.name }} ({{ app.user.email }})</a>
+                        </p>
+                    {% endif %}
+                </fieldset>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <fieldset>
+                    <legend>Parametry usługi</legend>
+ 
+                    <div class="form-group field-text">
+                        <label for="order_service" class="form-control-label">Usługa</label>
+                        <div class="form-widget">
+                        {% if host %} 
+                            <select id="order_service" name="order[service]" class="form-control" style="max-width:100%;" readonly="true">
+                                <option value="pojsoft" selected="selected">PojSoft</option>
+                            </select>  
+                        {% else %}        
+                            <select id="order_service" name="order[service]" class="form-control" style="max-width:100%;">
+                            {% for tab in services %}
+                                {% if tab.name|lower == what %}
+                                    <option value="{{ tab.name }}" selected="selected">{{ tab.name }}</option>
+                                {% else %}
+                                    <option value="{{ tab.name }}">{{ tab.name }}</option>
+                                {% endif %}
+                            {% endfor %}
+                            </select>
+                        {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="form-group field-text">
+                        <label for="order_pack" class="form-control-label">Pakiet</label>
+                        <div class="form-widget">            
+                            <select id="order_pack" name="order[pack]" class="form-control" style="max-width:100%;">
+                                <option value="MINI">MINI</option>
+                                <option value="MEDIUM">MEDIUM</option>
+                                <option value="MAXI">MAXI</option>
+                                <option value="PRO">PRO</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group field-text">
+                        <label for="order_time" class="form-control-label">Okres rozliczeniowy</label>
+                        <div class="form-widget">            
+                            <select id="order_time" name="order[time]" class="form-control" style="max-width:100%;">
+                                <option value="1">1 miesiąc {% if gratis > 0 %}+ 1 miesiąc testowy{% endif %}</option>
+                                <option value="3">3 miesiące {% if gratis > 0 %}+ 1 miesiąc testowy{% endif %}</option>
+                                <option value="6">6 miesięcy {% if gratis > 0 %}+ 1 miesiąc testowy{% endif %}</option>
+                                <option value="12">12 miesięcy {% if gratis > 0 %}+ 1 miesiąc testowy{% endif %}</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="order_service_name" class="form-control-label">Nazwa własna usługi (subdomena)</label>
+                        <div class="form-widget"> 
+                            {% if host %}
+                            <input type="text" id="order_service_name" name="order[service_name]" minlength="3" maxlength="15" class="form-control" value="{{ host }}" readonly="true" />
+                            {% else %}
+                            <input type="text" id="order_service_name" name="order[service_name]" minlength="3" maxlength="15" class="form-control" required="required" />
+                            {% endif %}
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+            <div class="col-6">
+                <fieldset>
+                    <legend>Podsumowanie</legend>
+                    <div class="mt-2">
+                        <table style="width:100%;" class="mt-2">
+                            <tr style="border-bottom:1px solid #eee;">
+                                <th id="order_table_name" class="text-left"></th>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <th class="text-left">Cena netto miesiąc</th>
+                                <td id="order_table_cost" class="text-right"></td>
+                            </tr>
+                            <tr>
+                                <th class="text-left">Ilość miesięcy</th>
+                                <td id="order_table_month" class="text-right"></td>
+                            </tr>
+                            <tr>
+                                <th class="text-left">Razem</th>
+                                <td id="order_table_sum" class="text-right"></td>
+                            </tr>
+                            <tr>
+                                <th class="text-left">VAT (23%)</th>
+                                <td id="order_table_vat" class="text-right"></td>
+                            </tr>
+                            <tr>
+                                <th class="text-left">RAZEM DO ZAPŁATY</th>
+                                <th id="order_table_sumvat" class="text-right"></th>
+                            </tr>
+                        </table>
+                    </div>
+                </fieldset>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 mt-2">
+                <button type="submit" class="btn btn-lg btn-success btn-block">Złóż zamówienie</button>
+            </div>
+        </div>
+    </p>
+</form>
+{% endblock %}

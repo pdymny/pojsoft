@@ -1,0 +1,41 @@
+easy_admin:
+    entities:
+        User:
+            class: App\Entity\User
+            controller: App\Controller\AdminController
+            list:
+                title: 'Klienci'
+                actions:
+                    - { name: '-new', label: 'Nowe konto' }
+                    - { name: '-show' }
+                    - { name: 'edit' }
+                    - { name: '-delete' }
+                fields: ['id', { property: 'active', label: 'Konto aktywne' }, { property: 'username', label: 'Imię i Nazwisko' }, { property: 'email', label: 'E-mail' }, { property: 'phone', label: 'Telefon' }]
+            form:
+                actions:
+                    - { name: '-delete' }
+                fields: 
+                    - { type: 'group', label: 'Dane konta', icon: 'file-invoice', columns: '6' }
+                    - { property: 'firstname', label: 'Imię' }
+                    - { property: 'name', label: 'Nazwisko' }
+                    - { property: 'email', label: 'E-mail' }
+                    - { property: 'phone', label: 'Telefon' }
+                    - { type: 'group', label: 'Dane do faktury', icon: 'id-card', columns: '6' }
+                    - { property: 'name_company', label: 'Nazwa firmy' }
+                    - { property: 'street', label: 'Ulica' }
+                    - { property: 'code_post', label: 'Kod pocztowy' }
+                    - { property: 'city', label: 'Miejscowość' }
+                    - { property: 'nip', label: 'NIP' }
+                    - { property: 'regon', label: 'REGON' }
+                    - { type: 'group', label: 'Inne', icon: 'circle-notch', columns: '6' }
+                    - { property: 'active', label: 'Aktywacja konta' }
+                    - { property: 'token', label: 'Token' }
+                    - { property: 'code_partner', label: 'Kod partnera' }
+                    - { property: 'role', label: 'Rola admina' }
+            edit:
+                title: 'Edytuj konto (#%%entity_id%%)'
+            new: 
+                title: 'Dodaj nowe konto'
+
+
+

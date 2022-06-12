@@ -1,0 +1,20 @@
+easy_admin:
+    entities:
+        DiscountsHistoryAdmin:
+            class: App\Entity\UserDiscounts
+            controller: App\Controller\AdminController
+            list:
+                item_permission: 'ROLE_ADMIN'
+                title: 'Zniżki - Historia'
+                actions:
+                    - { name: '-new'}
+                    - { name: '-show' }
+                    - { name: '-edit' }
+                    - { name: '-delete' }
+                fields: 
+                    - { property: 'id' }
+                    - { property: 'user.username', label: 'Klient' }
+                    - { property: 'invoice.name', label: 'Numer faktury' }
+                    - { property: 'discounts.code', label: 'Kod zniżki' }
+                    - { property: 'money', label: 'Kwota' }
+                    - { property: 'date', label: 'Data' }

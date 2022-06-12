@@ -1,0 +1,28 @@
+{# templates/admin/form.html.twig #}
+{% block _vehicles_type_select_widget %}
+    <select id="vehicles_type" name="vehicles[type]" required="required" class="form-control">
+    	<option value="1">Samochód osobowy o pojemności powyżej 900 cm3</option>
+    	<option value="2">Samochód osobowy o pojemności do 900 cm3</option>
+    	<option value="3">Samochód dostawczy</option>
+    	<option value="4">Samochód ciężarowy</option>
+    	<option value="5">Motocykl</option>
+    	<option value="6">Motorower</option>
+    </select>
+{% endblock %}
+
+{% block _records_month_select_widget %}
+    <select id="records_month" name="records[month]" required="required" class="form-control">
+    	<option value="1">Styczeń</option>
+    	<option value="2">Luty</option>
+    	<option value="3">Marzec</option>
+    	<option value="4">Kwiecień</option>
+    	<option value="5">Maj</option>
+    	<option value="6">Czerwiec</option>
+    	<option value="7">Lipiec</option>
+    	<option value="8">Sierpień</option>
+    	<option value="9">Wrzesień</option>
+		<option value="10">Październik</option>
+    	<option value="11">Listopad</option>
+    	<option value="12">Grudzień</option>
+    </select>
+{% endblock %}

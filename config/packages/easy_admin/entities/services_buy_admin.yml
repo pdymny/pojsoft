@@ -1,0 +1,31 @@
+easy_admin:
+    entities:
+        ServicesBuyAdmin:
+            class: App\Entity\UserServices
+            controller: App\Controller\AdminController
+            list:
+                item_permission: 'ROLE_ADMIN'
+                title: 'Wykupione usługi'
+                actions:
+                  - { name: '-new' }
+                  - { name: 'delete' }
+                  - { name: '-show' }
+                  - { name: 'edit' }
+                fields: 
+                    - { property: 'id' }
+                    - { property: 'user.username', label: 'Klient' }
+                    - { property: 'myservices.name', label: 'Nazwa usługi', template: 'user/inc/path.html.twig' }
+                    - { property: 'getPack', label: 'Pakiet' }
+                    - { property: 'date_end_pack', label: 'Termin ważności', format: 'd-m-Y' }
+                    - { property: 'host', label: 'Nazwa hosta' }
+                    - { property: 'date_delete_host', label: 'Koniec hostowania', format: 'd-m-Y' }
+                    - { property: 'getHost', label: ' ', template: 'user/inc/path_host.html.twig' }
+            edit:
+                item_permission: 'ROLE_ADMIN'
+                title: 'Edytuj wykupioną usługę (#%%entity_id%%)'
+                fields:
+                    - { property: 'user', label: 'Klient' }
+                    - { property: 'getMyServices.name', label: 'Nazwa usługi', type: 'text' }
+                    - { property: 'date_end_pack', label: 'Termin ważności', format: 'd-m-Y' }
+                    - { property: 'host', label: 'Nazwa hosta' }
+                    - { property: 'date_delete_host', label: 'Koniec hostowania', format: 'd-m-Y' }              

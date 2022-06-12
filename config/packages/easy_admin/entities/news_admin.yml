@@ -1,0 +1,30 @@
+easy_admin:
+    entities:
+        NewsAdmin:
+            class: App\Entity\News
+            controller: App\Controller\AdminController
+            list:
+                item_permission: 'ROLE_ADMIN'
+                title: 'Wiadomości'
+                actions:
+                    - { name: 'new', label: 'Nowa wiadomość'}
+                    - { name: '-show' }
+                    - { name: 'edit' }
+                    - { name: 'delete' }
+                fields: 
+                    - { property: 'id' }
+                    - { property: 'name', label: 'Tytuł wiadomości' }
+                    - { property: 'description', label: 'Wiadomość' }
+                    - { property: 'icon', label: 'Ikonka' }
+                    - { property: 'date', label: 'Data' }
+            form:
+                item_permission: 'ROLE_ADMIN'
+                fields: 
+                    - { property: 'name', label: 'Tytuł wiadomości' }
+                    - { property: 'description', label: 'Wiadomość' }
+                    - { property: 'icon', label: 'Ikonka' }
+                    - { property: 'date', label: 'Data' }
+            edit:
+                title: 'Edytuj wiadomość (#%%entity_id%%)'
+            new:
+                title: 'Nowa wiadomość'

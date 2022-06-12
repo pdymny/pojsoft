@@ -1,0 +1,23 @@
+easy_admin:
+    design:
+        menu:
+            - { label: 'Pulpit', icon: 'dashboard', route: 'dashboard' }
+            - { label: 'Usługi', icon: 'list-alt', entity: 'UserServices' }
+            - { label: 'Faktury', icon: 'file-invoice', entity: 'UserInvoices' }
+            - { label: 'Kontakt', icon: 'envelope', route: 'support' }
+            - { label: 'Edycja danych', icon: 'cogs', route: 'settings' }
+            - { label: 'Wszystkie usługi', icon: 'store-alt', route: 'services' }
+            - { label: 'Program Partnerski', icon: 'handshake', route: 'partner' }
+
+            - { label: 'Admin Menu', permission: 'ROLE_ADMIN' }
+            - { label: 'Klienci', entity: 'User', permission: 'ROLE_ADMIN' }
+            - { label: 'Faktury', entity: 'UserInvoicesAdmin', permission: 'ROLE_ADMIN' }
+            - { label: 'Usługi', entity: 'ServicesAdmin', permission: 'ROLE_ADMIN' }
+            - { label: 'Usługi - Wykupione', entity: 'ServicesBuyAdmin', permission: 'ROLE_ADMIN' }
+            - { label: 'Zniżki', entity: 'DiscountsAdmin', permission: 'ROLE_ADMIN' }
+            - { label: 'Zniżki - Historia', entity: 'DiscountsHistoryAdmin', permission: 'ROLE_ADMIN' }
+            - { label: 'Wiadomości', entity: 'NewsAdmin', permission: 'ROLE_ADMIN' }
+            - { label: 'Partnerzy', entity: 'PartnersAdmin', permission: 'ROLE_ADMIN' }
+            - { label: 'Partnerzy - Historia', entity: 'PartnersHistoryAdmin', permission: 'ROLE_ADMIN' }
+            - { label: 'Akcje klientów', entity: 'NotifyAdmin', permission: 'ROLE_ADMIN' }
+

@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block page_title 'Panel logowania' %}
+
+{% block body_id 'welcome' %}
+
+{% block main %}
+
+        {% if error|default(false) %}
+            <div class="w-100 alert alert-danger">
+                {{ error.messageKey|trans(error.messageData, 'security') }}
+            </div>
+        {% endif %}
+        {% block flash_messages %}
+            {{ include(_entity_config is defined ? _entity_config.templates.flash_messages : '@EasyAdmin/default/flash_messages.html.twig') }}
+        {% endblock flash_messages %}
+
+    <p class="lead">
+        <form method="post">
+            <fieldset>
+                <div class="form-group">
+                    <input type="email" id="inputEmail" name="email" value="{{ last_username }}" class="form-control" placeholder='E-mail' />
+                </div>
+                <div class="form-group">
+                    <input type="password" id="inputPassword" name="password" class="form-control" placeholder='Hasło'/>
+                </div>
+
+                <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+                <button type="submit" class="btn btn-lg btn-success btn-block">Zaloguj</button>
+                <a href="{{ path('forgot_password') }}" class="btn btn-lg btn-info btn-block">Przypomnij hasło</a>
+                <a href="{{ path('register') }}" class="btn btn-lg btn-info btn-block">Załóż konto</a>
+            </fieldset>
+        </form>
+    </p>
+
+{% endblock %}

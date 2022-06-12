@@ -1,0 +1,30 @@
+easy_admin:
+    entities:
+        DiscountsAdmin:
+            class: App\Entity\Discounts
+            controller: App\Controller\AdminController
+            list:
+                item_permission: 'ROLE_ADMIN'
+                title: 'Zniżki'
+                actions:
+                    - { name: 'new', label: 'Nowa zniżka'}
+                    - { name: '-show' }
+                    - { name: 'edit' }
+                    - { name: 'delete' }
+                fields: 
+                    - { property: 'id' }
+                    - { property: 'code', label: 'Kod zniżki' }
+                    - { property: 'discount', label: 'Wartość zniżki w procentach' }
+                    - { property: 'term', label: 'Termin ważności zniżki' }
+            form:
+                item_permission: 'ROLE_ADMIN'
+                fields: 
+                    - { property: 'code', label: 'Kod zniżki' }
+                    - { property: 'discount', label: 'Wartość zniżki w procentach' }
+                    - { property: 'term', label: 'Termin ważności zniżki' }
+            edit:
+                item_permission: 'ROLE_ADMIN'
+                title: 'Edytuj zniżkę (#%%entity_id%%)'
+            new:
+                item_permission: 'ROLE_ADMIN'
+                title: 'Nowa zniżka'

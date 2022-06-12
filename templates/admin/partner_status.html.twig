@@ -1,0 +1,11 @@
+{% if value == 0 %}
+<span class="badge badge-primary p-2">Wejście na stronę</span>
+{% elseif value == 1 %}
+<span class="badge badge-primary p-2">Rejestracja</span>
+{% elseif value == 2 %}
+<span class="badge badge-success p-2">Kupno usługi</span>
+{% elseif value == 3 %}
+<span class="badge badge-warning p-2">Wypłata</span>
+{% else %}
+<span class="badge badge-danger p-2">Błąd</span>
+{% endif %}

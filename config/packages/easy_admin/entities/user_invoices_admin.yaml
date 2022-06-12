@@ -1,0 +1,34 @@
+easy_admin:
+    entities:
+        UserInvoicesAdmin:
+            class: App\Entity\UserInvoices
+            controller: App\Controller\AdminController
+            list:
+                item_permission: 'ROLE_ADMIN'
+                title: 'Faktury'
+                actions:
+                    - { name: '-new', label: 'Nowa faktura'}
+                    - { name: 'show', label: 'Zobacz fakturę' }
+                    - { name: 'edit' }
+                    - { name: 'delete' }
+                fields: 
+                    - { property: 'id' }
+                    - { property: 'name', label: 'Numer faktury' }
+                    - { property: 'user.username', label: 'Klient' }
+                    - { property: 'date_issued', label: 'Data wystawienia', format: 'd-m-Y' }
+                    - { property: 'date_payment', label: 'Termin płatności', format: 'd-m-Y' }
+                    - { property: 'InvoicesTable', label: 'Wartość', template: 'user/inc/invoice_value.html.twig' }
+                    - { property: 'status', label: 'Status', template: 'user/inc/invoice_status.html.twig' }
+            form:
+                item_permission: 'ROLE_ADMIN'
+                title: 'Edytuj fakturę (#%%entity_id%%)'
+                fields: 
+                    - { property: 'user', label: 'Klient' }
+                    - { property: 'name', label: 'Numer faktury' }
+                    - { property: 'date_issued', label: 'Data wystawienia', format: 'd-m-Y' }
+                    - { property: 'date_payment', label: 'Termin płatności', format: 'd-m-Y' }    
+                    - { property: 'date_paid', label: 'Data wpłaty', format: 'd-m-Y' }  
+                    - { property: 'status', label: 'Status', template: 'user/inc/invoice_status.html.twig' }  
+                    - { property: 'disc', label: 'Zniżka' } 
+            templates:
+                show: 'user/show_invoice.html.twig'

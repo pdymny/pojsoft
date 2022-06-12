@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block page_title 'Przypomnienie hasła' %}
+
+{% block body_id 'welcome' %}
+
+{% block main %}
+
+        {% if error|default(false) %}
+            <div class="w-100 alert alert-danger">
+                {{ error.messageKey|trans(error.messageData, 'security') }}
+            </div>
+        {% endif %}
+        {% block flash_messages %}
+            {{ include(_entity_config is defined ? _entity_config.templates.flash_messages : '@EasyAdmin/default/flash_messages.html.twig') }}
+        {% endblock flash_messages %}
+
+    <p class="lead">
+        
+        <fieldset>
+            {{ form_start(form) }}
+                {{ form_row(form.email) }}
+                {{ form_row(form.submit) }}
+                <a href="{{ path('app_login') }}" class="btn btn-lg btn-info btn-block">Panel logowania</a>
+            {{ form_end(form) }}
+        </fieldset>
+        
+    </p>
+
+{% endblock %}

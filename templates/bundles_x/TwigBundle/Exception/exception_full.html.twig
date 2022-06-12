@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block page_title 'Błąd lub brak strony' %}
+
+{% block body_id 'welcome' %}
+
+{% block main %}
+
+    <p class="lead">
+        <fieldset>
+        	<div class="w-100 alert alert-danger">
+        		Taka strona nie istenieje lub wystąpił błąd.
+        	</div>
+        	<a href="{{ path('dashboard') }}" class="btn btn-lg btn-info btn-block">Przejdź do pulpitu.</a>
+        </fieldset>
+
+        Kod błędu: {{ status_code }} {{ status_text }}
+    </p>
+
+{% endblock %}

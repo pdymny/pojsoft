@@ -1,0 +1,29 @@
+{% extends 'layout_login.html.twig' %}
+
+{% block page_title 'Dostępne usługi' %}
+
+{% block body_id 'welcome' %}
+
+{% block content_title 'Dostępne usługi' %}
+
+{% block main %}
+
+<div class="row row-cols-1 row-cols-md-3 m-2 mb-5">
+    {% for tab in services %}
+    <div class="col mt-4">
+      <div class="card">
+        <i class="fa fa-5x {{ tab.icon }} text-center mt-5 mb-4"></i>
+        <div class="card-body">
+          <h5 class="card-title">{{ tab.name }}</h5>
+          <p class="card-text">{{ tab.description }}</p>
+        </div>
+        <div class="card-footer">
+          <a href="{{ path('order_service', { what: tab.name|lower, pack: 'MINI', gratis: 0, extends: 0 }) }}" target="_blank" class="btn btn-primary float-left">Zamów</a>
+          <a href="{{ tab.path }}" target="_blank" class="btn btn-primary float-right">Więcej informacji</a>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+</div>
+ 
+{% endblock %}

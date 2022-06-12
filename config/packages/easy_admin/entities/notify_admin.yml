@@ -1,0 +1,19 @@
+easy_admin:
+    entities:
+        NotifyAdmin:
+            class: App\Entity\UserNotify
+            controller: App\Controller\AdminController
+            list:
+                item_permission: 'ROLE_ADMIN'
+                title: 'Akcje klinetów'
+                actions:
+                - { name: '-new' }
+                - { name: '-delete' }
+                - { name: '-show' }
+                - { name: '-edit' }
+                fields: 
+                  - { property: 'date', label: 'Data aktywności' }
+                  - { property: 'user.username', label: 'Klient' }
+                  - { property: 'ip', label: 'IP' }
+                  - { property: 'text', label: 'Wydarzenie' }
+

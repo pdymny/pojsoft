@@ -1,0 +1,21 @@
+easy_admin:
+    entities:
+        UserServices:
+            class: App\Entity\UserServices
+            controller: App\Controller\AdminController
+            list:
+                title: 'Wykupione usługi'
+                actions:
+                    - { name: '-new' }
+                    - { name: '-show' }
+                    - { name: '-edit' }
+                    - { name: '-delete' }
+                fields: 
+                    - { property: 'myservices.name', label: 'Nazwa usługi', template: 'user/inc/path.html.twig' }
+                    - { property: 'getPack', label: 'Pakiet' }
+                    - { property: 'date_end_pack', label: 'Termin ważności', format: 'd-m-Y' }
+                    - { property: 'host', label: 'Nazwa hosta' }
+                    - { property: 'date_delete_host', label: 'Koniec hostowania', format: 'd-m-Y' }
+                    - { property: 'getHost', label: ' ', template: 'user/inc/path_host.html.twig' }
+                    - { property: 'getOrder', label: ' ', template: 'user/inc/path_order.html.twig' }
+

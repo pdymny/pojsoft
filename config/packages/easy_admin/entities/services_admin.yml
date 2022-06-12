@@ -1,0 +1,30 @@
+easy_admin:
+    entities:
+        ServicesAdmin:
+            class: App\Entity\Services
+            controller: App\Controller\AdminController
+            list:
+                item_permission: 'ROLE_ADMIN'
+                title: 'Usługi'
+                actions:
+                    - { name: 'new', label: 'Nowa usługa'}
+                    - { name: '-show' }
+                    - { name: 'edit' }
+                    - { name: 'delete' }
+                fields: 
+                    - { property: 'id' }
+                    - { property: 'name', label: 'Nazwa usługi' }
+                    - { property: 'description', label: 'Opis usługi' }
+                    - { property: 'path', label: 'Adres URL' }
+            form:
+                item_permission: 'ROLE_ADMIN'
+                fields: 
+                    - { property: 'name', label: 'Nazwa usługi' }
+                    - { property: 'description', label: 'Opis usługi' }
+                    - { property: 'path', label: 'Adres URL' }
+                    - { property: 'icon', label: 'Ikonka' }
+                    - { property: 'data_pack', label: 'Dodatkowe dane' }
+            edit:
+                title: 'Edytuj usługę (#%%entity_id%%)'
+            new:
+                title: 'Nowa usługa'

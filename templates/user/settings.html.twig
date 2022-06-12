@@ -1,0 +1,124 @@
+{% extends '@EasyAdmin/default/layout.html.twig' %}
+
+{% block page_title 'Dane firmy' %}
+
+{% block body_id 'welcome' %}
+
+{% block content_title 'Dane firmy' %}
+
+{% block main %}
+<form id="save-settings" class=" new-form" action="{{ path('editUser') }}" method="post">
+
+    <div class="row">
+        <div class="field-group col-6">
+            <fieldset>
+                <legend class="with-icon">
+                    <i class="fa fa-fw fa-file-invoice"></i>
+                    Dane do faktury
+                </legend>
+
+                <div class="form-group field-text">
+                    <label for="settings_name_company" class="form-control-label">Nazwa firmy</label>
+                    <div class="form-widget">            
+                        <input type="text" id="settings_name_company" name="settings[name_company]" class="form-control" value="{{ user.getNameCompany() }}"/>
+                    </div>
+                </div>
+
+                <div class="form-group  field-text">
+                    <label for="settings_street" class="form-control-label">Ulica</label>
+                    <div class="form-widget">            
+                        <input type="text" id="settings_street" name="settings[street]" class="form-control" value="{{ user.street }}" />
+                    </div>
+                </div>
+
+                <div class="form-group  field-text">
+                    <label for="settings_code" class="form-control-label">Kod pocztowy</label>
+                    <div class="form-widget">            
+                        <input type="text" id="settings_code" name="settings[code]" class="form-control" value="{{ user.getCodePost() }}" />
+                    </div>
+                </div>
+
+                <div class="form-group  field-text">
+                    <label for="settings_city" class="form-control-label">Miejscowość</label>
+                    <div class="form-widget">            
+                        <input type="text" id="settings_city" name="settings[city]" class="form-control" value="{{ user.city }}" />
+                    </div>
+                </div>
+
+                <div class="form-group  field-text">
+                    <label for="settings_nip" class="form-control-label">NIP</label>
+                    <div class="form-widget">            
+                        <input type="text" id="settings_nip" name="settings[nip]" class="form-control" value="{{ user.nip }}" />
+                    </div>
+                </div>
+
+                <div class="form-group  field-text">
+                    <label for="settings_regon" class="form-control-label">REGON</label>
+                    <div class="form-widget">            
+                        <input type="text" id="settings_regon" name="settings[regon]" class="form-control" value="{{ user.regon }}" />
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+        <div class="field-group col-6">
+            <fieldset>
+                <legend class="with-icon">
+                    <i class="fa fa-fw fa-id-card"></i>
+                    Dane konta
+                </legend>
+
+                <div class="form-group  field-text">
+                    <label for="settings_firstname" class="form-control-label">Imię</label>
+                    <div class="form-widget">            
+                        <input type="text" id="settings_firstname" name="settings[firstname]" class="form-control" value="{{ user.firstname }}" />
+                    </div>
+                </div>
+
+                <div class="form-group  field-text">
+                    <label for="settings_name" class="form-control-label">Nazwisko</label>
+                    <div class="form-widget">            
+                        <input type="text" id="settings_name" name="settings[name]" class="form-control" value="{{ user.name }}" />
+                    </div>
+                </div>
+
+                <div class="form-group  field-text">
+                    <label for="settings_email" class="form-control-label">E-mail</label>
+                    <div class="form-widget">            
+                        <input type="text" id="settings_email" name="settings[email]" class="form-control" value="{{ user.email }}" />
+                    </div>
+                </div>
+
+                <div class="form-group  field-text">
+                    <label for="settings_phone" class="form-control-label">Telefon</label>
+                    <div class="form-widget">            
+                        <input type="text" id="settings_phone" name="settings[phone]" class="form-control" value="{{ user.phone }}" />
+                    </div>
+                </div>
+
+                <div class="form-group  field-text">
+                    <label for="settings_old_password" class="form-control-label">Stare hasło</label>
+                    <div class="form-widget">            
+                        <input type="password" id="settings_old_password" name="settings[old_password]" class="form-control" />
+                    </div>
+                </div>
+
+                <div class="form-group  field-text">
+                    <label for="settings_new_password" class="form-control-label">Nowe hasło</label>
+                    <div class="form-widget">            
+                        <input type="password" id="settings_new_password" name="settings[new_password]" class="form-control"/>
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content_footer %}
+    <input type="hidden" id="settings__token" name="settings[_token]" value="8EvNsH1SmCcSO8Cowt_0Hu83hyCwAmtdvQq7CuCWAcg" />
+        <div class="form-actions">        
+            <button type="submit" class="btn btn-primary action-save" data-toggle="tooltip" data-placement="top" title="Kliknij i zapisz zmiany.">
+                <span class="btn-label">Zapisz zmiany</span>
+            </button>
+        </div>
+</form>
+{% endblock %}

@@ -1,0 +1,109 @@
+{% extends 'layout_login.html.twig' %}
+
+{% block page_title 'Kontakt' %}
+
+{% block body_id 'welcome' %}
+
+{% block content_title 'Kontakt' %}
+
+{% block main %}
+<form id="contact" class="new-form" action="{{ path('send_support') }}" method="post">
+
+    <div class="row">
+        <div class="field-group col-6">
+
+            <fieldset>
+                <legend class="with-icon">
+                    <i class="fa fa-fw fa-info"></i>
+                    Informacje
+                </legend>
+
+                <div class="row mt-3">
+                    <div class="col-12">
+                        <p>Skontaktować możesz się z nami za pomocą:</p>
+                        <ul>
+                            <li>Formularza dostępnego obok.</li>
+                            <li>Systemu supportu dostępnego w aplikacji.</li>
+                            <li>Po przez e-mail podany niżej.</li>
+                        </ul>
+
+                        <table style="width:100%" class="table datagrid mt-5">
+                            <tr>
+                                <th>E-mail ogólny:</th>
+                                <td>pdymny896@gmail.com</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </fieldset>
+
+            <fieldset>
+                <legend class="with-icon">
+                    <i class="fa fa-fw fa-info"></i>
+                    Dane firmy
+                </legend>
+
+                <div class="row mt-3">
+                    <div class="col-12 text-center">
+                        <strong><i class="fa fa-code"></i> Comapny Paweł Demo</strong>
+                        <div>Ul. XYZ 11</div>
+                        <div>86-100 Firmowo</div>
+                        <div><strong>NIP:</strong> 555-333-33-33</div>
+                        <div><strong>REGON:</strong> 88888777</div>
+                        <div><strong>E-mail:</strong> pdymny896@gmail.com</div><br/>
+                        <div><strong>Konto:</strong> <br/>xx 1140 2004 0000 xxxx xxxx xxxx (xyzBank)</div>
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+        <div class="field-group col-6">
+
+            <fieldset>
+                <legend class="with-icon">
+                    <i class="fa fa-fw fa-envelope"></i>
+                    Formularz kontaktowy
+                </legend>
+
+                <div class="form-group field-text">
+                    <label for="settings_name_company" class="form-control-label">Usługa</label>
+                    <div class="form-widget">            
+                        <select id="contact_service" name="contact[service]" class="form-control" style="max-width:100%;">
+                            <option value="kontakt@pojsoft.pl">PojSoft</option>
+                            <option value="kontakt@dymcode.eu">Inna</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group field-text">
+                    <label for="settings_name_company" class="form-control-label">Powód</label>
+                    <div class="form-widget">            
+                        <select id="contact_reason" name="contact[reason]" class="form-control" style="max-width:100%;">
+                            <option value="Problemy techniczne">Problemy techniczne</option>
+                            <option value="Propozycja zmian">Propozycja zmian</option>
+                            <option value="Inne">Inne</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group field-text">
+                    <label class="form-control-label">Temat wiadomości</label>
+                    <div class="form-widget">            
+                        <input type="text" id="contact_subject" name="contact[subject]" class="form-control" style="max-width:100%;"/>
+                    </div>
+                </div>
+
+                <div class="form-group field-text">
+                    <label class="form-control-label">Treść wiadomości</label>
+                    <div class="form-widget">            
+                        <textarea id="contact_text" name="contact[text]" class="form-control" style="height:150px;max-width:100%;"/></textarea>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary float-right">
+                    <span class="btn-label">Wyślij wiadomość</span>
+                </button>
+            </fieldset>
+        </div>
+    </div> 
+</form>
+{% endblock %}

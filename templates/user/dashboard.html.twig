@@ -1,0 +1,75 @@
+{% extends 'layout_login.html.twig' %}
+
+{% block page_title 'Pulpit' %}
+
+{% block body_id 'welcome' %}
+
+{% block content_title 'Pulpit' %}
+
+{% block main %}
+<form id="save-settings" class=" new-form" action="" method="post">
+
+    <div class="row">
+        <div class="field-group col-12">
+
+            <fieldset>
+                <legend class="with-icon">
+                    <i class="fa fa-fw fa-newspaper"></i>
+                    Wiadomości
+                </legend>
+
+                <div class="row row-cols-1 row-cols-md-3 mb-2">
+                    {% for tab in news %}
+                    <div class="col mt-2">
+                      <div class="card">
+                        <i class="fa fa-5x {{ tab.icon }} text-center mt-5 mb-4"></i>
+                        <div class="card-body">
+                          <h5 class="card-title">{{ tab.name }}</h5>
+                          <p class="card-text">{{ tab.description }}</p>
+                        </div>
+                        <div class="card-footer text-right">
+                            <small>
+                                {{ tab.date|date('d-m-Y') }}
+                            </small>
+                        </div>
+                      </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </fieldset>
+        </div>
+    </div> 
+    <div class="row">
+        <div class="field-group col-12 ">
+
+            <fieldset>
+                <legend class="with-icon" data-toggle="tooltip" data-placement="right" title="Wyświetla ostatnie 30 akcji.">
+                    <i class="fa fa-fw fa-history"></i>
+                    Ostatnie akcje
+                </legend>
+
+                <div class="row">
+                    <div class="col-12">
+                    
+                        <table class="table datagrid">
+                            <tr>
+                                <th>Data aktywności</th>
+                                <th>IP</th>
+                                <th>Wydarzenie</th>    
+                            </tr>
+                        {% for note in notify %}
+                            <tr>
+                                <td>{{ note.date|date("d-m-Y H:i:s") }}</td>
+                                <td>{{ note.ip }}</td>
+                                <td>{{ note.text }}</td>
+                            </tr>
+                        {% endfor %}
+                        </table>
+                    </div>
+                </div>
+                <a class="btn btn-primary float-right mt-1" title="" href="{{ path('easyadmin', { entity:'UserNotify', action:'list' }) }}" target="_self">Wszystkie akcje</a> 
+            </fieldset>
+        </div>
+    </div> 
+</form>
+{% endblock %}

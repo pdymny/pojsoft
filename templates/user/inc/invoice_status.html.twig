@@ -1,0 +1,25 @@
+{% if value == 0 %}
+<span class="badge badge-danger p-2">
+  PRO FORMA DO ZAPŁATY
+</span>
+{% elseif value == 1 %}
+<span class="badge badge-danger p-2">
+  PRO FORMA - SPÓŹNIONA
+</span>
+{% elseif value == 2 %}
+<span class="badge badge-info p-2">
+  ANULOWANA
+</span>
+{% elseif value == 3 %}
+<span class="badge badge-primary p-2">
+  PRO FORMA - OPŁACONA
+</span>
+{% elseif value == 4 %}
+<span class="badge badge-primary p-2">
+  FAKTURA VAT - OPŁACONA
+</span>
+{% else %}
+<span class="badge badge-primary p-2">
+  DUPLIKAT
+</span>
+{% endif %}

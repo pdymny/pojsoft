@@ -1,0 +1,5 @@
+{% set sum = 0 %}
+{% for tab in value %}
+	{% set sum = sum + tab.money %}
+{% endfor %}
+{{ sum|number_format(2) }} PLN

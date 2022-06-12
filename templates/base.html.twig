@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="{{ app.request.locale|split('_')|first|default('pl') }}">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+
+    <title>SellSoftware Panel - {% block page_title %}{{ block('content_title')|striptags|raw }}{% endblock %}</title>
+
+    {% block head_stylesheets %}
+    <link rel="stylesheet" href="{{ asset('bundles/easyadmin/app.css') }}">
+    {% endblock %}
+
+    {% for css_asset in easyadmin_config('design.assets.css') %}
+    <link rel="stylesheet" href="{{ asset(css_asset) }}">
+    {% endfor %}
+
+    <style>
+        :root { --color-primary: {{ easyadmin_config('design.brand_color') }}; }
+    </style>
+
+    {% block head_favicon %}
+    {% set favicon = easyadmin_config('design.assets.favicon') %}
+    <link rel="icon" type="{{ favicon.mime_type }}" href="{{ asset(favicon.path) }}" />
+    {% endblock %}
+
+    {% block head_javascript %}
+    <script src="{{ asset('bundles/easyadmin/app.js') }}"></script>
+    {% endblock head_javascript %}
+
+    {% if easyadmin_config('design.rtl') %}
+    <link rel="stylesheet" href="{{ asset('bundles/easyadmin/app-rtl.css') }}">
+    {% endif %}
+</head>
+
+{% block body %}
+<body id="{% block body_id %}{% endblock %}" class="easyadmin {% block body_class %}{% endblock %}">
+
+    {% block wrapper_wrapper %}
+    {% block wrapper %}
+
+    <div class="login-wrapper" style="margin:0 auto;{% block body_width %}width:500px;{% endblock %}margin-top:50px;margin-bottom:20px;">
+
+        <header class="main-header mb-5">
+            <div id="header-logo">
+                {% block header_logo %}
+                <a class="logo" style="font-size:50px;" title="{{ easyadmin_config('site_name')|striptags }}" href="#">
+                    {{ easyadmin_config('site_name')|raw }}
+                </a>
+                {% endblock header_logo %}
+            </div>
+        </header>
+
+        {% block content %}
+        <div class="content">
+            {% block content_header_wrapper %}
+            <section class="content-header">
+                {% block content_header %}
+                <div class="d-flex flex-row justify-content-between align-content-center w-100">
+                    <div class="content-header-title">
+                        <h1 class="title">{{ block ('page_title') }}</h1>
+                    </div>
+                </div>
+
+                {% endblock content_header %}
+            </section>
+            {% endblock content_header_wrapper %}
+
+            <section id="main" class="content-body">
+                {% block main %}{% endblock %}
+            </section>
+
+            {% block content_footer_wrapper %}
+            <section class="content-footer text-center">
+                <span class="text-muted">© 2020 Wszystkie prawa zastrzeżone.</span><br/>
+                {% block content_footer %}{% endblock %}
+            </section>
+            {% endblock %}
+        </div>
+        {% endblock content %}
+
+    </div>
+    {% endblock wrapper %}
+
+    {% endblock wrapper_wrapper %}
+
+    {% block body_javascript %}{% endblock body_javascript %}
+
+    {% for js_asset in easyadmin_config('design.assets.js') %}
+    <script src="{{ asset(js_asset) }}"></script>
+    {% endfor %}
+    <script src="{{ asset('ajax/app.js') }}"></script>
+</body>
+{% endblock body %}
+</html>
+

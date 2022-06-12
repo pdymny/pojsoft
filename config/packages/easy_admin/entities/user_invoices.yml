@@ -1,0 +1,20 @@
+easy_admin:
+    entities:
+        UserInvoices:
+            class: App\Entity\UserInvoices
+            controller: App\Controller\AdminController
+            list:
+                title: 'Faktury'
+                actions:
+                    - { name: '-new' }
+                    - { name: 'show', label: 'Zobacz fakturę' }
+                    - { name: '-edit' }
+                    - { name: '-delete' }
+                fields: 
+                    - { property: 'name', label: 'Numer faktury' }
+                    - { property: 'date_issued', label: 'Data wystawienia', format: 'd-m-Y' }
+                    - { property: 'date_payment', label: 'Termin płatności', format: 'd-m-Y' }
+                    - { property: 'InvoicesTable', label: 'Wartość', template: 'user/inc/invoice_value.html.twig' }
+                    - { property: 'status', label: 'Status', template: 'user/inc/invoice_status.html.twig' }
+            templates:
+                show: 'user/show_invoice.html.twig'

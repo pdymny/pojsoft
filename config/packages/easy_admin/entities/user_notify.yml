@@ -1,0 +1,18 @@
+easy_admin:
+    entities:
+        UserNotify:
+            class: App\Entity\UserNotify
+            controller: App\Controller\AdminController
+            list:
+                title: 'Akcje'
+                actions:
+                - { name: '-new' }
+                - { name: '-delete' }
+                - { name: '-show' }
+                - { name: '-edit' }
+                fields: [{ property: 'date', label: 'Data aktywności' }, { property: 'ip', label: 'IP' }, { property: 'text', label: 'Wydarzenie' }]
+
+
+
+
+

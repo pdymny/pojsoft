@@ -1,0 +1,138 @@
+{% extends 'layout_login.html.twig' %}
+
+{% block page_title 'Program Partnerski' %}
+
+{% block body_id 'welcome' %}
+
+{% block content_title 'Program Partnerski' %}
+
+{% block main %}
+<form id="partner" class="new-form" action="{{ path('add_partner') }}" method="post">
+
+    <div class="row">
+        <div class="field-group col-6">
+
+            <fieldset>
+                <legend class="with-icon">
+                    <i class="fa fa-fw fa-info"></i>
+                    Informacje
+                </legend>
+
+                <div class="row mt-2 mb-3">
+                    <div class="col-12">
+                    
+                        <div class="text-center">
+                          Aby zarabiać w naszym systemie utwórz swój unikalny kod polecającego.<br/>
+                          Następnie zacznij polecać nasze usługi za pomocą Narzędzi dostępnych po kliknięciu na przycisk obok.
+                        </div>
+                        <div class="text-center mt-3">
+                          Prowizja zależy od ilości zdobytych klientów. 
+                          Na start otrzymujesz 10% prowizji, która może wzrosnąć w zależności od skuteczności sprzedaży.
+                        </div>
+                        <div class="text-center mt-3">
+                          Wypłacić prowizję możesz, gdy uzbierasz 100 PLN.
+                          Jeżeli nie masz uzbieranych 100 PLN, a chcesz wypłacić uzyskaną kwotę pobierana jest opłata w wysokości 5 PLN. <br/>
+                          Aktualnie prowizję można wypłacić za pomocą e-maila pisząc do nas.
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+        <div class="field-group col-6">
+
+            <fieldset>
+                <legend class="with-icon">
+                    <i class="fa fa-fw fa-envelope"></i>
+                    Zarabiaj z nami
+                </legend>
+
+            {% if partner == '' %}
+              <div class="mt-2">
+                Wpisz kod, aby zarabiać razem z nami:
+                <div class="form-group">
+                  <input type="text" class="form-control" id="code" name="code[code]" min="3" placeholder="Kod polecającego">
+                </div>
+                <button type="submit" class="btn btn-primary float-right">Zarabiaj</button>
+              </div>
+            {% else %}
+                <table style="width:100%" class="table datagrid mt-1">
+                    <tr>
+                        <th>Kod:</th>
+                        <td class="text-right">{{ partner.code }}</td>
+                    </tr>
+                    <tr>
+                        <th>Prowizja:</th>
+                        <td class="text-right">{{ partner.percent }} %</td>
+                    </tr>
+                    <tr>
+                        <th>Stan konta:</th>
+                        <td class="text-right">{{ partner.amount }} PLN</td>
+                    </tr>
+                </table>
+                <div class="text-center mt-5">
+                    <input type="text" style="min-width:300px;" value="http://www.sellsoftware.dymcode.eu/{{ path('partner_path', { partner: partner.code, url: 'autosoftware.dymcode.eu' }) }}">
+                </div>
+            {% endif %}
+            </fieldset>
+        </div>
+    </div> 
+
+    <div class="row">
+        <div class="col-12">
+            <fieldset>
+                {% if partner %}
+                <legend class="with-icon">
+                    <i class="fa fa-fw fa-envelope"></i>
+                    Historia partnerstwa
+                </legend>
+                
+                {% if partner.getHistory() %}
+                    <table class="table">
+                        <thead>
+                          <tr>
+                            <th>Data</th>
+                            <th>Status</th>
+                            <th class="text-right">Kwota</th>
+                            <th class="text-right">Stan konta</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                        {% for tab in partner.getHistory() %}
+                          <tr>
+                            <td>{{ tab.date|date('d-m-Y') }}</td>
+                            <td>
+                            {% if tab.status == 0 %}
+                                <span class="badge badge-primary p-2">Wejście na stronę</span>
+                            {% elseif tab.status == 1 %}
+                                <span class="badge badge-primary p-2">Rejestracja</span>
+                            {% elseif tab.status == 2 %}
+                                <span class="badge badge-success p-2">Kupno usługi</span>
+                            {% elseif tab.status == 3 %}
+                                <span class="badge badge-warning p-2">Wypłata</span>
+                            {% else %}
+                                <span class="badge badge-danger p-2">Błąd</span>
+                            {% endif %}
+                            </td>
+                            <td class="text-right">
+                                {% if tab.money > 0 %}
+                                    <b style="color:green">{{ tab.money }}</b> PLN
+                                {% else %}
+                                    <b style="color:red">{{ tab.money }}</b> PLN
+                                {% endif %}
+                            </td>
+                            <td class="text-right">{{ tab.amount }} PLN</td>
+                          </tr>
+                        {% endfor %}
+                        </tbody>
+                      </table>
+                {% else %}
+                    <div class="alert alert-info" role="alert">
+                        Brak pozyskanych klientów.
+                    </div>
+                {% endif %} 
+                {% endif %}              
+            </fieldset>
+        </div>
+    </div>
+</form>
+{% endblock %}
